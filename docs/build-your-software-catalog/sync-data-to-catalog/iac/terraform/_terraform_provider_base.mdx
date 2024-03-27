@@ -1,0 +1,27 @@
+:::note Prerequisites
+To install and use Glint's Terraform provider, you will need to install the [Terraform CLI](https://learn.hashicorp.com/tutorials/terraform/install-cli)
+:::
+
+To install the Terraform provider, create a `.tf` file specifying the provider and the required Glint [credentials](/build-your-software-catalog/custom-integration/api#find-your-glint-credentials):
+
+```hcl showLineNumbers
+terraform {
+  required_providers {
+    glint = {
+      source  = "kozmoai/kozmoai"
+      version = "~> 1.0.0"
+    }
+  }
+}
+
+provider "glint" {
+  client_id = "{YOUR CLIENT ID}"     # or set the environment variable GLINT_CLIENT_ID
+  secret    = "{YOUR CLIENT SECRET}" # or set the environment variable GLINT_CLIENT_SECRET
+}
+```
+
+Then run the following command to install the provider in your Terraform workspace:
+
+```shell showLineNumbers
+terraform init
+```

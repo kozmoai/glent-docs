@@ -1,0 +1,44 @@
+<details>
+
+<summary> Ocean integration configuration </summary>
+
+```yaml showLineNumbers
+resources:
+  - kind: project
+    selector:
+      query: "true"
+    glint:
+      entity:
+        mappings:
+          identifier: .path_with_namespace | gsub(" "; "")
+          title: .name
+          blueprint: '"service"'
+          properties:
+            url: .web_url
+            readme: file://README.md
+            description: .description
+            language: .__languages | to_entries | max_by(.value) | .key
+            namespace: .namespace.name
+            fullPath: .namespace.full_path
+            defaultBranch: .default_branch
+  - kind: merge-request
+    selector:
+      query: "true"
+    glint:
+      entity:
+        mappings:
+          identifier: .id | tostring
+          title: .title
+          blueprint: '"gitlabMergeRequest"'
+          properties:
+            creator: .author.name
+            status: .state
+            createdAt: .created_at
+            updatedAt: .updated_at
+            link: .web_url
+            reviewers: .reviewers | map(.name)
+          relations:
+            service: .references.full | gsub("!.+"; "")
+```
+
+</details>
